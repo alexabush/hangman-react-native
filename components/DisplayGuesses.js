@@ -4,7 +4,11 @@ import styled from 'styled-components';
 
 class DisplayGuesses extends PureComponent {
   render() {
-    return <Text>Guesses</Text>;
+    return (
+      <View>
+        <Text>Guesses</Text>
+      </View>
+    );
   }
 }
 

@@ -12,7 +12,53 @@ const MainAppView = styled.View`
   margin-top: 40px;
 `;
 
+const words = [
+  'empowering',
+  'optimistic',
+  'passionate',
+  'enjoyable',
+  'opportunity',
+  'inspirational',
+  'enthusiastic',
+  'affirmation',
+  'gratitude',
+  'courageous',
+  'persistant',
+  'mindfulness',
+  'exuberance',
+  'motivational',
+  'adventurous',
+  'confidence',
+  'accomplishment',
+  'achiever',
+  'fullfilled',
+  'vivacious',
+  'ebullient',
+  'cheerful',
+  'effervescent',
+  'upbeat'
+];
+
+const DEFAULT_STATE = {
+  numWrongGuesses: 0,
+  guessedLetters: () => new Set(),
+  word: '',
+  winStatus: 0
+};
+
 export default class App extends Component {
+  state = {};
+
+  componentDidMount() {
+    console.log('in componentDidMount');
+    this.setState(DEFAULT_STATE);
+  }
+
+  processGuess = () => {};
+  checkWin = () => {};
+  checkLoss = () => {};
+  resetGame = () => {};
+
   render() {
     return (
       <MainAppView>

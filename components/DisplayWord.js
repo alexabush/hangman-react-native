@@ -4,7 +4,11 @@ import styled from 'styled-components';
 
 class DisplayWord extends PureComponent {
   render() {
-    return <Text>Word</Text>;
+    return (
+      <View>
+        <Text>Word</Text>
+      </View>
+    );
   }
 }
 
