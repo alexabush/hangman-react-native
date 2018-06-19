@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 import styled from 'styled-components';
+import { StyledView, StyledLetter } from '../styledComponents';
 
 // const bodyParts = {
 //   1: 'O',
@@ -16,15 +17,17 @@ const BODYPARTS = ['O', '|', '/', '\', ' | (', ' / '')];
 
 class DisplayHangman extends PureComponent {
   render() {
+    console.log('in displayhangman');
+    console.log('in props', this.props);
+    debugger;
     const bodyArr = BODYPARTS.slice(0, this.props.numWrongGuesses);
     const display = bodyArr.map((part, index) => {
-      return <Text key={index}>{part}</Text>;
+      return <StyledLetter key={index}>{part}</StyledLetter>;
     });
     return (
-      <View>
-        <Text>Hangman</Text>
+      <StyledView>
         <View>{display}</View>
-      </View>
+      </StyledView>
     );
   }
 }

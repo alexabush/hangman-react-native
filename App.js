@@ -3,13 +3,20 @@ import { Text, View } from 'react-native';
 import DisplayGuesses from './components/DisplayGuesses';
 import DisplayHangman from './components/DisplayHangman';
 import DisplayWord from './components/DisplayWord';
+import GuessForm from './containers/GuessForm';
 import styled from 'styled-components';
+import { StyledView } from './styledComponents';
 
 const MainAppView = styled.View`
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 40px;
+  font-size: 30px;
+`;
+
+const TitleText = styled.Text`
+  font-size: 48px;
 `;
 
 const WORDS = [
@@ -47,18 +54,14 @@ const DEFAULT_STATE = {
 };
 
 const guessedLettersSet = (() => new Set())();
-guessedLettersSet.add('a');
-guessedLettersSet.add('c');
-guessedLettersSet.add('r');
-guessedLettersSet.add('i');
-// const guessedLettersSet = (() => new Set())();
 
 export default class App extends Component {
   state = {
-    numWrongGuesses: 4,
+    numWrongGuesses: 0,
     guessedLetters: guessedLettersSet,
     word: WORDS[17],
-    winStatus: 0
+    winStatus: 0,
+    gameState: 'Please enter a guess'
   };
 
   // componentDidMount() {
@@ -66,21 +69,46 @@ export default class App extends Component {
   //   this.setState({ ...DEFAULT_STATE });
   // }
 
-  processGuess = () => {};
+  processGuess = guess => {
+    console.log(this.state);
+    debugger;
+    if (this.state.guessedLetters.has(guess)) {
+      this.setState({ gameState: 'That letter has already been guessed' });
+    }
+    if (!this.state.word.includes(guess)) {
+      this.setState(prevState => {
+        return { numWrongGuesses: prevState.numWrongGuesses + 1 };
+      });
+    }
+    this.setState(prevState => {
+      const newGuessedLetters = new Set(prevState.guessedLetters);
+      newGuessedLetters.add(guess);
+      return { guessedLetters: newGuessedLetters };
+    });
+    console.log('state:', this.state);
+    debugger;
+  };
+
   checkWin = () => {};
   checkLoss = () => {};
   resetGame = () => {};
 
   render() {
+    const guessesLeft = 6 - this.state.numWrongGuesses;
     return (
       <MainAppView>
-        <Text>Hangman</Text>
+        <TitleText>Hangman</TitleText>
+        <Text>Please Make A Guess</Text>
+        <Text>Guesses Left: {guessesLeft}</Text>
         <DisplayHangman numWrongGuesses={this.state.numWrongGuesses} />
-        <DisplayGuesses guessedLetters={this.state.guessedLetters} />
-        <DisplayWord
-          word={this.state.word}
-          guessedLetters={this.state.guessedLetters}
-        />
+        <StyledView>
+          <DisplayWord
+            word={this.state.word}
+            guessedLetters={this.state.guessedLetters}
+          />
+          <DisplayGuesses guessedLetters={this.state.guessedLetters} />
+        </StyledView>
+        <GuessForm processGuess={this.processGuess} />
       </MainAppView>
     );
   }

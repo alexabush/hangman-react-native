@@ -1,9 +1,18 @@
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 import styled from 'styled-components';
+import { StyledView, SubtitleText, StyledLetter } from '../styledComponents';
+
+const WordView = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  width: 60%;
+`;
 
 class DisplayWord extends PureComponent {
   render() {
+    console.log('in DisplayWord');
+    console.log('this.props', this.props);
     debugger;
     const wordState = Array.from(
       { length: this.props.word.length },
@@ -17,14 +26,14 @@ class DisplayWord extends PureComponent {
       count++;
     }
     const display = wordState.map((val, index) => {
-      return <Text key={index}>{val}</Text>;
+      return <StyledLetter key={index}>{val}</StyledLetter>;
     });
-    debugger;
+    // debugger;
     return (
-      <View>
-        <Text>Happy Days</Text>
-        <View>{display}</View>
-      </View>
+      <StyledView>
+        <SubtitleText>Word</SubtitleText>
+        <WordView>{display}</WordView>
+      </StyledView>
     );
   }
 }
