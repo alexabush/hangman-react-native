@@ -12,7 +12,7 @@ const MainAppView = styled.View`
   margin-top: 40px;
 `;
 
-const words = [
+const WORDS = [
   'empowering',
   'optimistic',
   'passionate',
@@ -40,19 +40,31 @@ const words = [
 ];
 
 const DEFAULT_STATE = {
-  numWrongGuesses: 0,
+  numWrongGuesses: 4,
   guessedLetters: () => new Set(),
   word: '',
   winStatus: 0
 };
 
-export default class App extends Component {
-  state = {};
+const guessedLettersSet = (() => new Set())();
+guessedLettersSet.add('a');
+guessedLettersSet.add('c');
+guessedLettersSet.add('r');
+guessedLettersSet.add('i');
+// const guessedLettersSet = (() => new Set())();
 
-  componentDidMount() {
-    console.log('in componentDidMount');
-    this.setState(DEFAULT_STATE);
-  }
+export default class App extends Component {
+  state = {
+    numWrongGuesses: 4,
+    guessedLetters: guessedLettersSet,
+    word: WORDS[17],
+    winStatus: 0
+  };
+
+  // componentDidMount() {
+  //   console.log('in componentDidMount');
+  //   this.setState({ ...DEFAULT_STATE });
+  // }
 
   processGuess = () => {};
   checkWin = () => {};
@@ -63,9 +75,12 @@ export default class App extends Component {
     return (
       <MainAppView>
         <Text>Hangman</Text>
-        <DisplayHangman />
+        <DisplayHangman numWrongGuesses={this.state.numWrongGuesses} />
         <DisplayGuesses />
-        <DisplayWord />
+        <DisplayWord
+          word={this.state.word}
+          guessedLetters={this.state.guessedLetters}
+        />
       </MainAppView>
     );
   }

@@ -12,11 +12,18 @@ import styled from 'styled-components';
 //   7: '\'
 // }
 
+const BODYPARTS = ['O', '|', '/', '\', ' | (', ' / '')];
+
 class DisplayHangman extends PureComponent {
   render() {
+    const bodyArr = BODYPARTS.slice(0, this.props.numWrongGuesses);
+    const display = bodyArr.map((part, index) => {
+      return <Text key={index}>{part}</Text>;
+    });
     return (
       <View>
         <Text>Hangman</Text>
+        <View>{display}</View>
       </View>
     );
   }
