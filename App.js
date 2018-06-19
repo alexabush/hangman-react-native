@@ -76,7 +76,7 @@ export default class App extends Component {
       <MainAppView>
         <Text>Hangman</Text>
         <DisplayHangman numWrongGuesses={this.state.numWrongGuesses} />
-        <DisplayGuesses />
+        <DisplayGuesses guessedLetters={this.state.guessedLetters} />
         <DisplayWord
           word={this.state.word}
           guessedLetters={this.state.guessedLetters}
