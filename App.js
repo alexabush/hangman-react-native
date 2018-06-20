@@ -48,10 +48,11 @@ const WORDS = [
 ];
 
 const DEFAULT_STATE = {
-  numWrongGuesses: 4,
-  guessedLetters: () => new Set(),
-  word: '',
-  winStatus: 0
+  numWrongGuesses: 0,
+  guessedLetters: (() => new Set())(),
+  word: WORDS[2],
+  winStatus: 0,
+  gameState: 'Please enter a guess'
 };
 
 const guessedLettersSet = (() => new Set())();
@@ -76,15 +77,15 @@ export default class App extends Component {
     }
     if (!this.state.word.includes(guess)) {
       this.setState(prevState => {
-        let winStatus = prevState.numWrongGuesses >= 6 ? 2 : 0;
+        let winStatus = prevState.numWrongGuesses >= 5 ? 2 : 0;
         return { numWrongGuesses: prevState.numWrongGuesses + 1, winStatus };
       });
     }
     this.setState(prevState => {
       const newGuessedLetters = new Set(prevState.guessedLetters);
       newGuessedLetters.add(guess);
-      let winStatus = word.split('').every(letter => {
-        return guessedLetters.has(letter);
+      let winStatus = prevState.word.split('').every(letter => {
+        return newGuessedLetters.has(letter);
       })
         ? 1
         : 0;
