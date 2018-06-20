@@ -3,16 +3,6 @@ import { Text, View } from 'react-native';
 import styled from 'styled-components';
 import { StyledView, StyledLetter } from '../styledComponents';
 
-// const bodyParts = {
-//   1: 'O',
-//   2: '|',
-//   3: '/',
-//   4: '\',
-//   5: '|',
-//   6: '/',
-//   7: '\'
-// }
-
 const HangmanView = styled.View`
   min-height: 30%;
   padding: 10px;
@@ -22,8 +12,19 @@ const HangmanView = styled.View`
 const HangmanParts = styled.Text`
   padding: 0px;
   margin: 0px;
-  width: 100px;
-  /* height: 0px; */
+  width: 150px;
+  font-size: 36px;
+  /* background-color: '#F0F3F4'; */
+  color: ${({ color }) => color || 'black'};
+`;
+
+const HangmanPart = styled.Text`
+  padding: 0px;
+  margin: 0px;
+  /* width: 150px;
+  font-size: 36px; */
+  /* background-color: '#F0F3F4'; */
+  color: ${({ color }) => color || 'black'};
 `;
 
 function getASCIIChar(asciiNum) {
@@ -37,33 +38,45 @@ const leftLimb = getASCIIChar(47);
 const rightLimb = getASCIIChar(92);
 const space = getASCIIChar(32);
 
+const renderBlack = new Set([dash, underscore]);
+
 const GALLOWS = [
   [space, dash, dash, dash, dash, vertical],
-  [space, vertical, space, space, space, space, space, space, vertical],
+  [space, space, vertical, space, space, space, space, space, vertical],
   [space, 'O', space, space, space, space, vertical],
   [space, leftLimb, vertical, rightLimb, space, space, space, vertical],
   [space, space, vertical, space, space, space, space, space, vertical],
   [space, leftLimb, space, rightLimb, space, space, space, vertical],
-  [space, space, underscore, underscore, underscore, vertical, underscore]
+  [
+    space,
+    space,
+    underscore,
+    underscore,
+    underscore,
+    vertical,
+    underscore,
+    underscore
+  ]
 ];
 
 class DisplayHangman extends PureComponent {
   render() {
-    // const bodyArr = BODYPARTS.slice(0, this.props.numWrongGuesses);
-    // const display = bodyArr.map((part, index) => {
-    //   return <StyledLetter key={index}>{part}</StyledLetter>;
-    // });
     let gallows = GALLOWS;
     let joinedRows = gallows.map((row, index) => {
       console.log('row: ', row);
-      return (
-        <HangmanParts
-          style={{ fontSize: 36, width: 150, backgroundColor: 'powderblue' }}
-          key={index}
-        >
-          {row.join('')}
-        </HangmanParts>
-      );
+      row.map(part => {
+        let color = renderBlack.has(part) ? 'black' : 'white';
+        return (
+          <HangmanPart color="blue" key={index}>
+            {row.join('')}
+          </HangmanPart>
+        );
+      });
+      // return (
+      //   <HangmanParts color="blue" key={index}>
+      //     {row.join('')}
+      //   </HangmanParts>
+      // );
     });
     let display = joinedRows;
     debugger;
