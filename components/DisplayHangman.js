@@ -13,21 +13,23 @@ import { StyledView, StyledLetter } from '../styledComponents';
 //   7: '\'
 // }
 
+const HangmanView = styled.View`
+  min-height: 30%;
+  padding: 50px;
+`;
+
 const BODYPARTS = ['O', '|', '/', '\', ' | (', ' / '')];
 
 class DisplayHangman extends PureComponent {
   render() {
-    console.log('in displayhangman');
-    console.log('in props', this.props);
-    // debugger;
     const bodyArr = BODYPARTS.slice(0, this.props.numWrongGuesses);
     const display = bodyArr.map((part, index) => {
       return <StyledLetter key={index}>{part}</StyledLetter>;
     });
     return (
-      <StyledView>
+      <HangmanView>
         <View>{display}</View>
-      </StyledView>
+      </HangmanView>
     );
   }
 }

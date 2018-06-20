@@ -21,7 +21,6 @@ const TitleText = styled.Text`
 `;
 
 const WORDS = [
-  'ox',
   'empowering',
   'optimistic',
   'passionate',
@@ -48,17 +47,9 @@ const WORDS = [
   'upbeat'
 ];
 
-// const DEFAULT_STATE = {
-//   numWrongGuesses: 0,
-//   guessedLetters: (() => new Set())(),
-//   word: (() => selectRandomLetter())(),
-//   winStatus: 0,
-//   gameState: 'Please enter a guess'
-// };
-
 function generateNewState() {
   return {
-    numWrongGuesses: 0,
+    numWrongGuesses: 5,
     guessedLetters: (() => new Set())(),
     word: (() => selectRandomLetter())(),
     winStatus: 0,
@@ -71,8 +62,7 @@ function selectRandomLetter() {
 }
 
 function randomNum(start, end) {
-  const num = Math.floor(Math.random() * end) + start;
-  return num;
+  return Math.floor(Math.random() * end) + start;
 }
 
 export default class App extends Component {
@@ -86,32 +76,20 @@ export default class App extends Component {
 
   componentDidMount() {
     console.log('in componentDidMount');
-    const newState = generateNewState();
-    this.setState(newState);
-    // this.setState({ ...DEFAULT_STATE });
+    this.setState(generateNewState());
   }
 
   processGuess = guess => {
     if (this.state.guessedLetters.has(guess)) {
       this.setState({ gameState: 'That letter has already been guessed' });
     }
-    // console.log('this.state.word', this.state.word);
-    // console.log(
-    //   'this.state.word.includes(guess)',
-    //   this.state.word.includes(guess)
-    // );
-    debugger;
     if (!this.state.word.includes(guess)) {
-      debugger;
       this.setState(prevState => {
         let winStatus = prevState.numWrongGuesses >= 5 ? 2 : 0;
-        debugger;
         return { numWrongGuesses: prevState.numWrongGuesses + 1, winStatus };
       });
     }
-    debugger;
     this.setState(prevState => {
-      debugger;
       const newGuessedLetters = new Set(prevState.guessedLetters);
       newGuessedLetters.add(guess);
       let winStatus = prevState.word.split('').every(letter => {
@@ -121,18 +99,14 @@ export default class App extends Component {
         : 0;
       return { guessedLetters: newGuessedLetters, winStatus };
     });
-    debugger;
   };
 
   resetGame = () => {
     console.log('in componentDidMount');
-    const newState = generateNewState();
-    this.setState(newState);
+    this.setState(generateNewState());
   };
 
   render() {
-    console.log('this.state.winStatus: ', this.state.winStatus);
-    debugger;
     let displayWin;
     switch (this.state.winStatus) {
       case 0:
