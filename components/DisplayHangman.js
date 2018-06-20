@@ -19,7 +19,7 @@ class DisplayHangman extends PureComponent {
   render() {
     console.log('in displayhangman');
     console.log('in props', this.props);
-    debugger;
+    // debugger;
     const bodyArr = BODYPARTS.slice(0, this.props.numWrongGuesses);
     const display = bodyArr.map((part, index) => {
       return <StyledLetter key={index}>{part}</StyledLetter>;

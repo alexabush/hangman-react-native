@@ -7,7 +7,7 @@ class DisplayGuesses extends PureComponent {
   render() {
     console.log('in DisplayGuesses');
     console.log('this.props', this.props);
-    debugger;
+    // debugger;
     const guessesArr = Array.from(this.props.guessedLetters);
     const joinedGuesses = guessesArr.join('');
     return (

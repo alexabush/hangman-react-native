@@ -59,7 +59,7 @@ const guessedLettersSet = (() => new Set())();
 
 export default class App extends Component {
   state = {
-    numWrongGuesses: 0,
+    numWrongGuesses: 5,
     guessedLetters: guessedLettersSet,
     word: WORDS[0],
     winStatus: 0,
@@ -75,13 +75,23 @@ export default class App extends Component {
     if (this.state.guessedLetters.has(guess)) {
       this.setState({ gameState: 'That letter has already been guessed' });
     }
+    // console.log('this.state.word', this.state.word);
+    // console.log(
+    //   'this.state.word.includes(guess)',
+    //   this.state.word.includes(guess)
+    // );
+    debugger;
     if (!this.state.word.includes(guess)) {
+      debugger;
       this.setState(prevState => {
         let winStatus = prevState.numWrongGuesses >= 5 ? 2 : 0;
+        debugger;
         return { numWrongGuesses: prevState.numWrongGuesses + 1, winStatus };
       });
     }
+    debugger;
     this.setState(prevState => {
+      debugger;
       const newGuessedLetters = new Set(prevState.guessedLetters);
       newGuessedLetters.add(guess);
       let winStatus = prevState.word.split('').every(letter => {
@@ -91,6 +101,7 @@ export default class App extends Component {
         : 0;
       return { guessedLetters: newGuessedLetters, winStatus };
     });
+    debugger;
   };
 
   resetGame = () => {};

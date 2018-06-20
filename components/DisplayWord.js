@@ -13,7 +13,7 @@ class DisplayWord extends PureComponent {
   render() {
     console.log('in DisplayWord');
     console.log('this.props', this.props);
-    debugger;
+    // debugger;
     const wordState = Array.from(
       { length: this.props.word.length },
       val => '_'
