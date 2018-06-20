@@ -29,7 +29,7 @@ class GuessForm extends Component {
   render() {
     console.log('in GuessForm');
     console.log('this.props', this.props);
-    debugger;
+    // debugger;
     return (
       <View>
         <SubtitleText>Enter A Letter:</SubtitleText>

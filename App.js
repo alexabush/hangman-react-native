@@ -20,6 +20,7 @@ const TitleText = styled.Text`
 `;
 
 const WORDS = [
+  'ox',
   'empowering',
   'optimistic',
   'passionate',
@@ -59,7 +60,7 @@ export default class App extends Component {
   state = {
     numWrongGuesses: 0,
     guessedLetters: guessedLettersSet,
-    word: WORDS[17],
+    word: WORDS[0],
     winStatus: 0,
     gameState: 'Please enter a guess'
   };
@@ -70,35 +71,50 @@ export default class App extends Component {
   // }
 
   processGuess = guess => {
-    console.log(this.state);
-    debugger;
     if (this.state.guessedLetters.has(guess)) {
       this.setState({ gameState: 'That letter has already been guessed' });
     }
     if (!this.state.word.includes(guess)) {
       this.setState(prevState => {
-        return { numWrongGuesses: prevState.numWrongGuesses + 1 };
+        let winStatus = prevState.numWrongGuesses >= 6 ? 2 : 0;
+        return { numWrongGuesses: prevState.numWrongGuesses + 1, winStatus };
       });
     }
     this.setState(prevState => {
       const newGuessedLetters = new Set(prevState.guessedLetters);
       newGuessedLetters.add(guess);
-      return { guessedLetters: newGuessedLetters };
+      let winStatus = word.split('').every(letter => {
+        return guessedLetters.has(letter);
+      })
+        ? 1
+        : 0;
+      return { guessedLetters: newGuessedLetters, winStatus };
     });
-    console.log('state:', this.state);
-    debugger;
   };
 
-  checkWin = () => {};
-  checkLoss = () => {};
   resetGame = () => {};
 
   render() {
+    console.log('this.state.winStatus: ', this.state.winStatus);
+    debugger;
+    let displayWin;
+    switch (this.state.winStatus) {
+      case 0:
+        displayWin = 'Please Make A Guess';
+        break;
+      case 1:
+        displayWin = 'Congrats! You win!';
+        break;
+      case 2:
+        displayWin = 'Sorry. You lose.';
+        break;
+    }
+
     const guessesLeft = 6 - this.state.numWrongGuesses;
     return (
       <MainAppView>
         <TitleText>Hangman</TitleText>
-        <Text>Please Make A Guess</Text>
+        <Text>{displayWin}</Text>
         <Text>Guesses Left: {guessesLeft}</Text>
         <DisplayHangman numWrongGuesses={this.state.numWrongGuesses} />
         <StyledView>
