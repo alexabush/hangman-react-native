@@ -57,11 +57,16 @@ const DEFAULT_STATE = {
 
 const guessedLettersSet = (() => new Set())();
 
+function randomNum(start, end) {
+  const num = Math.floor(Math.random() * end) + start;
+  return num;
+}
+
 export default class App extends Component {
   state = {
     numWrongGuesses: 5,
     guessedLetters: guessedLettersSet,
-    word: WORDS[0],
+    word: WORDS[randomNum(0, WORDS.length)],
     winStatus: 0,
     gameState: 'Please enter a guess'
   };
