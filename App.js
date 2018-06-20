@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Button } from 'react-native';
 import DisplayGuesses from './components/DisplayGuesses';
 import DisplayHangman from './components/DisplayHangman';
 import DisplayWord from './components/DisplayWord';
 import GuessForm from './containers/GuessForm';
 import styled from 'styled-components';
 import { StyledView } from './styledComponents';
+import { generate } from 'rxjs/observable/generate';
 
 const MainAppView = styled.View`
   display: flex;
@@ -47,15 +48,27 @@ const WORDS = [
   'upbeat'
 ];
 
-const DEFAULT_STATE = {
-  numWrongGuesses: 0,
-  guessedLetters: (() => new Set())(),
-  word: WORDS[2],
-  winStatus: 0,
-  gameState: 'Please enter a guess'
-};
+// const DEFAULT_STATE = {
+//   numWrongGuesses: 0,
+//   guessedLetters: (() => new Set())(),
+//   word: (() => selectRandomLetter())(),
+//   winStatus: 0,
+//   gameState: 'Please enter a guess'
+// };
 
-const guessedLettersSet = (() => new Set())();
+function generateNewState() {
+  return {
+    numWrongGuesses: 0,
+    guessedLetters: (() => new Set())(),
+    word: (() => selectRandomLetter())(),
+    winStatus: 0,
+    gameState: 'Please enter a guess'
+  };
+}
+
+function selectRandomLetter() {
+  return WORDS[randomNum(0, WORDS.length)];
+}
 
 function randomNum(start, end) {
   const num = Math.floor(Math.random() * end) + start;
@@ -64,17 +77,19 @@ function randomNum(start, end) {
 
 export default class App extends Component {
   state = {
-    numWrongGuesses: 5,
-    guessedLetters: guessedLettersSet,
-    word: WORDS[randomNum(0, WORDS.length)],
+    numWrongGuesses: 0,
+    guessedLetters: '',
+    word: '',
     winStatus: 0,
     gameState: 'Please enter a guess'
   };
 
-  // componentDidMount() {
-  //   console.log('in componentDidMount');
-  //   this.setState({ ...DEFAULT_STATE });
-  // }
+  componentDidMount() {
+    console.log('in componentDidMount');
+    const newState = generateNewState();
+    this.setState(newState);
+    // this.setState({ ...DEFAULT_STATE });
+  }
 
   processGuess = guess => {
     if (this.state.guessedLetters.has(guess)) {
@@ -109,7 +124,11 @@ export default class App extends Component {
     debugger;
   };
 
-  resetGame = () => {};
+  resetGame = () => {
+    console.log('in componentDidMount');
+    const newState = generateNewState();
+    this.setState(newState);
+  };
 
   render() {
     console.log('this.state.winStatus: ', this.state.winStatus);
@@ -133,6 +152,7 @@ export default class App extends Component {
         <TitleText>Hangman</TitleText>
         <Text>{displayWin}</Text>
         <Text>Guesses Left: {guessesLeft}</Text>
+        <Button title="New Game" onPress={this.resetGame} />
         <DisplayHangman numWrongGuesses={this.state.numWrongGuesses} />
         <StyledView>
           <DisplayWord
