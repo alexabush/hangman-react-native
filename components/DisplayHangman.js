@@ -65,9 +65,9 @@ class DisplayHangman extends PureComponent {
     let joinedRows = gallows.map((row, index) => {
       console.log('row: ', row);
       row.map(part => {
-        let color = renderBlack.has(part) ? 'black' : 'white';
+        // let color = renderBlack.has(part) ? 'black' : 'white';
         return (
-          <HangmanPart color="blue" key={index}>
+          <HangmanPart color="black" key={index}>
             {row.join('')}
           </HangmanPart>
         );

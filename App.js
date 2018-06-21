@@ -49,7 +49,7 @@ const WORDS = [
 
 function generateNewState() {
   return {
-    numWrongGuesses: 5,
+    numWrongGuesses: 0,
     guessedLetters: (() => new Set())(),
     word: (() => selectRandomLetter())(),
     winStatus: 0,
@@ -80,8 +80,10 @@ export default class App extends Component {
   }
 
   processGuess = guess => {
+    if (this.state.winStatus !== 0) return;
     if (this.state.guessedLetters.has(guess)) {
       this.setState({ gameState: 'That letter has already been guessed' });
+      return;
     }
     if (!this.state.word.includes(guess)) {
       this.setState(prevState => {
@@ -90,6 +92,7 @@ export default class App extends Component {
       });
     }
     this.setState(prevState => {
+      if (prevState.winStatus > 0) return prevState;
       const newGuessedLetters = new Set(prevState.guessedLetters);
       newGuessedLetters.add(guess);
       let winStatus = prevState.word.split('').every(letter => {
@@ -97,7 +100,11 @@ export default class App extends Component {
       })
         ? 1
         : 0;
-      return { guessedLetters: newGuessedLetters, winStatus };
+      return {
+        guessedLetters: newGuessedLetters,
+        gameState: 'Please enter a guess',
+        winStatus
+      };
     });
   };
 
